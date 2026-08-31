@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{PIR-Framework: steady-state (post-convergence, last 50\% of session) evaluation across five control policies.}
+\label{tab:pir_overall}
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+Policy & HR MAE (bpm) & Event F1 & PDR & Energy/window (J) & Power (mW) & Latency (ms) & Deadline success & Power-cap success & Mean reward \\
+\midrule
+Fixed-Rate & 8.40 & 0.748 & 0.748 & 0.0958 & 11.98 & 117.4 & \textbf{1.000} & 1.000 & 0.118 \\
+Always-Local & \textbf{6.73} & \textbf{0.770} & \textbf{0.838} & 0.1199 & 14.99 & 142.1 & \textbf{1.000} & 1.000 & 0.078 \\
+Always-Edge & \textbf{6.73} & \textbf{0.770} & \textbf{0.838} & 0.1199 & 14.99 & 122.3 & \textbf{1.000} & 1.000 & 0.080 \\
+Heuristic-Rule & 6.86 & 0.769 & 0.832 & 0.1005 & 12.56 & 109.0 & \textbf{1.000} & 1.000 & \textbf{0.152} \\
+PIR-Contextual-Bandit (LinUCB) & 9.10 & 0.726 & 0.728 & \textbf{0.0888} & 11.10 & \textbf{98.8} & \textbf{1.000} & 1.000 & 0.133 \\
+\bottomrule
+\end{tabular}
+\end{table}

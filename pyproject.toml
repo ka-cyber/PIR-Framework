@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pir-framework"
+version = "0.1.0"
+description = "Physiological Information Reliability: a unified state-space and contextual-bandit control framework bridging CardioFusion-AI (ECG/PPG signal quality) and APC-RLNC (adaptive network coding under Gilbert-Elliott erasure channels)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "PIR-Framework contributors" }]
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+    "scikit-learn>=1.2",
+]
+
+[project.optional-dependencies]
+torch = ["torch>=2.0"]
+physionet = ["wfdb>=4.1"]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+pir-evaluate = "pir_framework.evaluate:main"
+
+[tool.setuptools.packages.find]
+include = ["pir_framework*"]

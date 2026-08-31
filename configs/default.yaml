@@ -1,0 +1,55 @@
+# Default configuration reference for PIR-Framework's evaluation pipeline.
+#
+# This file documents the parameters `pir_framework.evaluate.SimulationConfig`
+# and its sub-components use by default; it is not auto-loaded by the CLI
+# (which takes its (small) parameter set directly as flags -- see
+# `python -m pir_framework.evaluate --help`). Edit `SimulationConfig` /
+# `RewardWeights` / `GilbertElliottChannel` / `EnergyModel` / `ComputeModel`
+# in code, or use this file as a checklist when scripting a custom sweep
+# (see `scripts/run_experiment.py`).
+
+simulation:
+  n_per_regime: 200          # windows per degradation regime; x6 regimes = windows/seed
+  battery_capacity_j: 200.0  # starting on-device battery energy budget
+  bandit_type: linucb        # linucb | thompson
+  linucb_alpha: 0.3          # LinUCB UCB exploration coefficient
+  ridge_lambda: 1.0          # ridge regularization for both bandit variants
+  thompson_noise_variance: 0.05
+  seed: 0                    # base seed; multi-seed sweeps use seed, seed+1, ...
+
+reward_weights:
+  lambda_energy: 4.0         # penalty per joule
+  lambda_latency: 0.05       # penalty per ms over the deadline (softplus)
+  lambda_power: 0.02         # penalty per mW over the cap (softplus)
+  latency_deadline_ms: 150.0
+  power_cap_mw: 100.0
+  softplus_beta: 0.5
+
+channel_gilbert_elliott:
+  p_gb: 0.03                 # GOOD -> BAD transition probability per step
+  p_bg: 0.08                 # BAD -> GOOD transition probability per step
+  mu_good_db: 18.0
+  sigma_good_db: 1.5
+  mu_bad_db: 7.0
+  sigma_bad_db: 1.0
+  payload_bits: 512           # 64-byte coded payload
+
+energy_model:
+  e_tx_j: 0.002               # per transmitted coded packet
+  e_rx_j: 0.001                # per received ACK/feedback packet
+  e_comp_per_op_j: 2.0e-7      # per GF(256) MAC-equivalent operation
+  e_idle_w: 0.001               # baseline sensing + MCU idle draw
+
+compute_model:
+  local_clock_hz: 64.0e6        # on-body MCU
+  edge_clock_hz: 1.4e9          # offload target (Jetson-Nano-class)
+  cycles_per_gf_op: 8.0
+  cycles_per_local_infer: 2.0e6
+  cycles_per_edge_infer: 5.0e6
+  phy_rate_bps: 250.0e3
+  rtt_ms: 12.0                  # edge round-trip propagation latency
+
+arms:
+  K_values: [32]
+  R_values: [2, 8, 20]
+  placements: [local, edge]     # -> 6 arms total

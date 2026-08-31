@@ -1,0 +1,24 @@
+# Core (required)
+numpy>=1.24
+scipy>=1.10
+pandas>=2.0
+matplotlib>=3.7
+scikit-learn>=1.2
+
+# Testing
+pytest>=7.4
+
+# --- Optional, feature-gated dependencies ---
+# The framework runs fully without any of these; each is only used by the
+# specific optional code path named below, and every call site guards the
+# import so its absence never breaks the core pipeline.
+#
+#   torch          -> optional NeuralUCB contextual bandit variant in
+#                      pir_controller.py (LinUCB/Thompson Sampling, the
+#                      defaults used by evaluate.py, are pure NumPy).
+#   wfdb           -> PhysioNetRecordLoader in data_pipeline.py, for reading
+#                      real MIMIC-III/PTB-XL WFDB records. Not required for
+#                      the synthetic-data evaluation pipeline used by
+#                      evaluate.py by default.
+#
+# Install with:  pip install torch wfdb

@@ -1,0 +1,16 @@
+{
+  "n_seeds": 5,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "n_windows_per_seed": 1200,
+  "n_arms": 6,
+  "bandit_type": "linucb",
+  "overall_metrics_mean_path": "results_final/tables/overall_metrics_mean.csv",
+  "overall_metrics_ci95_path": "results_final/tables/overall_metrics_ci95.csv",
+  "latex_table_path": "results_final/tables/overall_metrics_table_multiseed.tex"
+}

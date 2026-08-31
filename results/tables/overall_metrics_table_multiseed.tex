@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{PIR-Framework: steady-state (post-convergence) evaluation across five control policies, mean $\pm$ 95\% CI over 5 independent seeds (1200 windows/seed).}
+\label{tab:pir_overall_multiseed}
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+Policy & HR MAE (bpm) & Event F1 & PDR & Energy/window (J) & Power (mW) & Latency (ms) & Deadline success & Power-cap success & Mean reward \\
+\midrule
+Fixed-Rate & 6.96 $\pm$ 1.11 & 0.769 $\pm$ 0.029 & 0.825 $\pm$ 0.083 & 0.0958 $\pm$ 0.0000 & 11.98 $\pm$ 0.00 & 117.4 $\pm$ 0.0 & \textbf{1.000 $\pm$ 0.000} & 1.000 $\pm$ 0.000 & 0.172 $\pm$ 0.054 \\
+Always-Local & \textbf{5.95 $\pm$ 0.58} & \textbf{0.793 $\pm$ 0.018} & \textbf{0.884 $\pm$ 0.046} & 0.1199 $\pm$ 0.0000 & 14.99 $\pm$ 0.00 & 142.1 $\pm$ 0.0 & \textbf{1.000 $\pm$ 0.000} & 1.000 $\pm$ 0.000 & 0.113 $\pm$ 0.031 \\
+Always-Edge & \textbf{5.95 $\pm$ 0.58} & \textbf{0.793 $\pm$ 0.018} & \textbf{0.884 $\pm$ 0.046} & 0.1199 $\pm$ 0.0000 & 14.99 $\pm$ 0.00 & 122.3 $\pm$ 0.0 & \textbf{1.000 $\pm$ 0.000} & 1.000 $\pm$ 0.000 & 0.115 $\pm$ 0.031 \\
+Heuristic-Rule & 6.08 $\pm$ 0.57 & 0.791 $\pm$ 0.018 & 0.873 $\pm$ 0.047 & 0.0956 $\pm$ 0.0055 & 11.95 $\pm$ 0.69 & \textbf{102.5 $\pm$ 6.6} & \textbf{1.000 $\pm$ 0.000} & 1.000 $\pm$ 0.000 & 0.204 $\pm$ 0.054 \\
+PIR-Contextual-Bandit (LinUCB) & 6.82 $\pm$ 1.62 & 0.772 $\pm$ 0.037 & 0.838 $\pm$ 0.093 & \textbf{0.0894 $\pm$ 0.0038} & 11.18 $\pm$ 0.47 & 104.6 $\pm$ 9.2 & \textbf{1.000 $\pm$ 0.000} & 1.000 $\pm$ 0.000 & \textbf{0.205 $\pm$ 0.065} \\
+\bottomrule
+\end{tabular}
+\end{table}
