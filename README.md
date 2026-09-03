@@ -374,3 +374,10 @@ results/                   Example output from a 5-seed x 1,200-window/seed
                            run (tables/ + figures/ + per-seed sub-runs)
 requirements.txt, pyproject.toml
 ```
+## Citation
+
+If you use this repository in your research, please cite:
+
+```
+https://doi.org/10.48550/arXiv.2609.00435
+```
