@@ -276,5 +276,5 @@ The committed `seed_0` through `seed_4` folders are the original five-seed outpu
 If you use this repository in your research, please cite:
 
 ```text
-https://doi.org/10.48550/arXiv.2609.00435
+anonymous for double blind
 ```
