@@ -1,0 +1,56 @@
+policy,metric,source_column,units,n_seeds,mean,sd_across_seeds,ci95_low,ci95_high,ci95_halfwidth,ci_method
+Fixed-Rate,HR-MAE,hr_mae_bpm,bpm,25,6.912927084475433,0.7334475793419485,6.610174803668752,7.215679365282114,0.3027522808066808,two-sided Student-t CI across seeds
+Fixed-Rate,Energy,mean_energy_j,J/window,25,0.09580959999999998,0.0,0.09580959999999998,0.09580959999999998,0.0,two-sided Student-t CI across seeds
+Fixed-Rate,Mean power,mean_power_mw,mW,25,11.976199999999999,0.0,11.976199999999999,11.976199999999999,0.0,two-sided Student-t CI across seeds
+Fixed-Rate,Mean latency,mean_latency_ms,ms,25,117.42600000000002,0.0,117.42600000000002,117.42600000000002,0.0,two-sided Student-t CI across seeds
+Fixed-Rate,Deadline success,deadline_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+Fixed-Rate,Power-cap success,power_cap_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+Fixed-Rate,Packet delivery ratio,pdr,proportion,25,0.8236666666666667,0.05048147808483454,0.8028289366650373,0.844504396668296,0.020837730001629327,two-sided Student-t CI across seeds
+Fixed-Rate,Mean reward,mean_reward,unitless,25,0.17149632474219276,0.03328258895882795,0.1577579472463164,0.18523470223806912,0.013738377495876355,two-sided Student-t CI across seeds
+Fixed-Rate,Event F1,event_f1,unitless,25,0.7621637221245297,0.028926518009572837,0.7502234423419567,0.7741040019071026,0.011940279782572906,two-sided Student-t CI across seeds
+Fixed-Rate,Mean PIV,mean_piv,unitless,25,0.6729543003089017,0.0026701444807065468,0.6718521188382879,0.6740564817795155,0.0011021814706138502,two-sided Student-t CI across seeds
+Fixed-Rate,Mean U_PIR,mean_u_pir,unitless,25,0.554734733188093,0.03328258895882796,0.5409963556922166,0.5684731106839693,0.01373837749587636,two-sided Student-t CI across seeds
+Always-Local,HR-MAE,hr_mae_bpm,bpm,25,5.90586953971059,0.5495456386568831,5.679028249076011,6.132710830345169,0.22684129063457906,two-sided Student-t CI across seeds
+Always-Local,Energy,mean_energy_j,J/window,25,0.11988639999999996,0.0,0.11988639999999996,0.11988639999999996,0.0,two-sided Student-t CI across seeds
+Always-Local,Mean power,mean_power_mw,mW,25,14.9858,0.0,14.9858,14.9858,0.0,two-sided Student-t CI across seeds
+Always-Local,Mean latency,mean_latency_ms,ms,25,142.05,0.0,142.05,142.05,0.0,two-sided Student-t CI across seeds
+Always-Local,Deadline success,deadline_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+Always-Local,Power-cap success,power_cap_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+Always-Local,Packet delivery ratio,pdr,proportion,25,0.8871333333333333,0.03245195879495765,0.8737378231175483,0.9005288435491183,0.013395510215785004,two-sided Student-t CI across seeds
+Always-Local,Mean reward,mean_reward,unitless,25,0.1148052748769369,0.02133231373817694,0.10599972854885267,0.12361082120502112,0.008805546328084227,two-sided Student-t CI across seeds
+Always-Local,Event F1,event_f1,unitless,25,0.7944325294895656,0.02218034746141056,0.7852769320451626,0.8035881269339685,0.009155597444403012,two-sided Student-t CI across seeds
+Always-Local,Mean PIV,mean_piv,unitless,25,0.6729543003089017,0.0026701444807065468,0.6718521188382879,0.6740564817795155,0.0011021814706138502,two-sided Student-t CI across seeds
+Always-Local,Mean U_PIR,mean_u_pir,unitless,25,0.596211389613209,0.02133231373817695,0.5874058432851247,0.6050169359412932,0.00880554632808423,two-sided Student-t CI across seeds
+Always-Edge,HR-MAE,hr_mae_bpm,bpm,25,5.90586953971059,0.5495456386568831,5.679028249076011,6.132710830345169,0.22684129063457906,two-sided Student-t CI across seeds
+Always-Edge,Energy,mean_energy_j,J/window,25,0.11988639999999996,0.0,0.11988639999999996,0.11988639999999996,0.0,two-sided Student-t CI across seeds
+Always-Edge,Mean power,mean_power_mw,mW,25,14.9858,0.0,14.9858,14.9858,0.0,two-sided Student-t CI across seeds
+Always-Edge,Mean latency,mean_latency_ms,ms,25,122.26418285714283,0.0,122.26418285714283,122.26418285714283,0.0,two-sided Student-t CI across seeds
+Always-Edge,Deadline success,deadline_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+Always-Edge,Power-cap success,power_cap_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+Always-Edge,Packet delivery ratio,pdr,proportion,25,0.8871333333333333,0.03245195879495765,0.8737378231175483,0.9005288435491183,0.013395510215785004,two-sided Student-t CI across seeds
+Always-Edge,Mean reward,mean_reward,unitless,25,0.11666569471814056,0.021332313738176942,0.10786014839005634,0.12547124104622479,0.008805546328084227,two-sided Student-t CI across seeds
+Always-Edge,Event F1,event_f1,unitless,25,0.7944325294895656,0.02218034746141056,0.7852769320451626,0.8035881269339685,0.009155597444403012,two-sided Student-t CI across seeds
+Always-Edge,Mean PIV,mean_piv,unitless,25,0.6729543003089017,0.0026701444807065468,0.6718521188382879,0.6740564817795155,0.0011021814706138502,two-sided Student-t CI across seeds
+Always-Edge,Mean U_PIR,mean_u_pir,unitless,25,0.596211389613209,0.02133231373817695,0.5874058432851247,0.6050169359412932,0.00880554632808423,two-sided Student-t CI across seeds
+Heuristic-Rule,HR-MAE,hr_mae_bpm,bpm,25,6.408750625031147,0.8260503934073922,6.067773781273991,6.749727468788303,0.3409768437571561,two-sided Student-t CI across seeds
+Heuristic-Rule,Energy,mean_energy_j,J/window,25,0.09666031360000002,0.003353075006044448,0.09527623226359881,0.09804439493640123,0.001384081336401203,two-sided Student-t CI across seeds
+Heuristic-Rule,Mean power,mean_power_mw,mW,25,12.082539200000001,0.419134375755556,11.90952903294985,12.255549367050152,0.1730101670501504,two-sided Student-t CI across seeds
+Heuristic-Rule,Mean latency,mean_latency_ms,ms,25,103.97239033599999,4.122601906171406,102.27066390713756,105.67411676486242,1.7017264288624232,two-sided Student-t CI across seeds
+Heuristic-Rule,Deadline success,deadline_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+Heuristic-Rule,Power-cap success,power_cap_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+Heuristic-Rule,Packet delivery ratio,pdr,proportion,25,0.8568,0.04666150765134252,0.8375390762949998,0.8760609237050002,0.019260923705000176,two-sided Student-t CI across seeds
+Heuristic-Rule,Mean reward,mean_reward,unitless,25,0.20154241972453765,0.03387174359149019,0.1875608511488757,0.21552398830019961,0.013981568575661973,two-sided Student-t CI across seeds
+Heuristic-Rule,Event F1,event_f1,unitless,25,0.7888686201485701,0.02204838681487843,0.7797674933818809,0.7979697469152592,0.009101126766689178,two-sided Student-t CI across seeds
+Heuristic-Rule,Mean PIV,mean_piv,unitless,25,0.6729543003089017,0.0026701444807065468,0.6718521188382879,0.6740564817795155,0.0011021814706138502,two-sided Student-t CI across seeds
+Heuristic-Rule,Mean U_PIR,mean_u_pir,unitless,25,0.5883701187929696,0.02094742126497687,0.5797234482692493,0.59701678931669,0.008646670523720413,two-sided Student-t CI across seeds
+PIR-LinUCB,HR-MAE,hr_mae_bpm,bpm,25,6.099585074460891,0.5584186287120748,5.869081193543862,6.33008895537792,0.230503880917029,two-sided Student-t CI across seeds
+PIR-LinUCB,Energy,mean_energy_j,J/window,25,0.09252552448000002,0.003438497427561887,0.09110618250101869,0.09394486645898135,0.001419341978981328,two-sided Student-t CI across seeds
+PIR-LinUCB,Mean power,mean_power_mw,mW,25,11.565690560000002,0.4298121784452364,11.388272812627335,11.743108307372669,0.17741774737266625,two-sided Student-t CI across seeds
+PIR-LinUCB,Mean latency,mean_latency_ms,ms,25,105.6108444464762,6.210287513310879,103.04736375327244,108.17432513967995,2.563480693203761,two-sided Student-t CI across seeds
+PIR-LinUCB,Deadline success,deadline_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+PIR-LinUCB,Power-cap success,power_cap_success_rate,proportion,25,1.0,0.0,1.0,1.0,0.0,two-sided Student-t CI across seeds
+PIR-LinUCB,Packet delivery ratio,pdr,proportion,25,0.8756,0.03164063257315868,0.8625393887886514,0.8886606112113486,0.013060611211348605,two-sided Student-t CI across seeds
+PIR-LinUCB,Mean reward,mean_reward,unitless,25,0.20567285422725506,0.03678614452530229,0.19048828007253266,0.22085742838197747,0.015184574154722404,two-sided Student-t CI across seeds
+PIR-LinUCB,Event F1,event_f1,unitless,25,0.7777582849582558,0.028885475716634513,0.7658349466015552,0.7896816233149565,0.01192333835670064,two-sided Student-t CI across seeds
+PIR-LinUCB,Mean PIV,mean_piv,unitless,25,0.6729543003089017,0.0026701444807065468,0.6718521188382879,0.6740564817795155,0.0011021814706138502,two-sided Student-t CI across seeds
+PIR-LinUCB,Mean U_PIR,mean_u_pir,unitless,25,0.5759976014774398,0.031116922057092822,0.5631531673422547,0.5888420356126249,0.012844434135185046,two-sided Student-t CI across seeds
