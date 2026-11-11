@@ -11,7 +11,8 @@ PIR treats the question of how much task-relevant information survives the sense
 
 This repository is a standalone implementation. It does not import code from the two prior repositories; it reimplements the relevant mechanisms (GF(256) coding utilities, a signal-quality index, and Gilbert–Elliott channel modelling) and documents the equations and references used by each module.
 
-> **Scope of the reported study:** the primary evaluation uses synthetic ECG/PPG windows and an analytic decoding-probability model. It is not a clinical validation study, and the reported simulation results should not be interpreted as evidence of performance on patients or deployed hardware.
+> **Scope of the reported study:** the primary evaluation uses synthetic ECG/PPG windows and an analytic decoding-probability model. It is not a clinical validation study, and the reported simulation results should not be interpreted as evidence of performance on patients or deployed hardware. 
+**Additional real-data physiological analysis:** The repository also includes an exploratory multi-lead fetal ECG evaluation using the Abdominal and Direct Fetal ECG Database. Physiological Information Value (PIV) is computed from four abdominal ECG leads and compared against heart-rate estimation error measured using the independently annotated direct fetal ECG reference. This analysis provides supplementary physiological evidence and is separate from the primary synthetic ECG/PPG controller evaluation. It does not constitute real-world validation of the wireless and computation models.
 
 ---
 
@@ -24,6 +25,8 @@ pir_framework/
 ├── data_pipeline.py    Synthetic + PhysioNet-format data and SQI estimator
 ├── evaluate.py         Five-policy comparative evaluation harness
 ├── coding/             GF(256) arithmetic and RLNC utilities
+├── real_fetal_experiment.py Real-data physiological validation
+├── real_ecg.py        Multi-lead fetal ECG SQI and PIV analysis
 ├── channel/            Gilbert–Elliott channel with SNR-linked BER
 └── utils/              Metrics, LaTeX export, and Matplotlib plotting
 ```
@@ -163,6 +166,94 @@ python tests/run_tests.py
 
 The project README previously documented 94 tests covering coding utilities, the Gilbert–Elliott channel, state-space properties, controllers, metrics/LaTeX export, and a small end-to-end evaluator run. Run the test suite on the exact commit used for a submission and report the current result rather than assuming the historical count still applies.
 
+
+## Real-Data Physiological Validation: Multi-Lead Fetal ECG
+
+To investigate whether Physiological Information Value captures variations in physiological signal reliability beyond synthetic ECG/PPG simulations, we conducted an additional evaluation using the Abdominal and Direct Fetal ECG Database.
+
+### Dataset and Experimental Setup
+
+The evaluation uses five real fetal ECG recordings. Four abdominal ECG leads are used to estimate signal quality and calculate a multi-lead adaptation of PIV. Independently annotated direct fetal ECG recordings provide the reference for fetal heart-rate estimation error.
+
+The experiment analyses 185 eight-second physiological windows, comprising 37 windows per recording.
+
+### PIV Evaluation
+
+We examine the association between PIV and absolute fetal heart-rate estimation error using within-record Spearman rank correlation. We also compare the full PIV measure against an SQI-only baseline.
+
+| Measure | Mean within-record Spearman correlation |
+|---|---:|
+| Multi-lead PIV | **-0.504** |
+| SQI-only baseline | -0.401 |
+
+The recording-level results are:
+
+| Recording | Windows | Multi-lead PIV (ρ) | SQI-only baseline (ρ) |
+|---|---:|---:|---:|
+| r01 | 37 | -0.708 | -0.703 |
+| r04 | 37 | -0.288 | -0.197 |
+| r07 | 37 | -0.454 | -0.165 |
+| r08 | 37 | -0.854 | -0.846 |
+| r10 | 37 | -0.217 | -0.094 |
+| **Mean** | **185** | **-0.504** | **-0.401** |
+
+PIV exhibited a negative association with fetal heart-rate estimation error in all five recordings. Its absolute correlation was greater than that of the SQI-only baseline in each recording.
+
+### Sensitivity Analysis
+
+The relationship between PIV and fetal heart-rate estimation error was evaluated across alternative filtering and window-duration configurations.
+
+| Filter band | Window duration | Mean within-record Spearman correlation |
+|---|---:|---:|
+| 20–100 Hz | 8 s | -0.504 |
+| 15–80 Hz | 8 s | -0.341 |
+| 25–150 Hz | 8 s | -0.548 |
+| 20–100 Hz | 12 s | -0.499 |
+
+The negative association persisted across all four tested configurations, indicating that the observed relationship was not restricted to a single preprocessing configuration.
+
+### Interpretation
+
+These results provide supplementary real-data evidence for the physiological value-proxy concept underlying PIR. The multi-lead ECG adaptation incorporates both signal quality and cross-lead agreement and exhibits a stronger descriptive association with fetal heart-rate estimation error than the SQI-only baseline.
+
+This experiment evaluates a multi-electrode ECG adaptation of PIV and complements the primary synthetic ECG/PPG evaluation.
+
+### Reproducibility
+
+The experiment implementation, recording-level statistics, window-level measurements, sensitivity results, and figures are available in `results/Real data/`.
+
+The original dataset recordings are not redistributed with this repository and must be obtained separately from the Abdominal and Direct Fetal ECG Database.
+
+---
+
+### Running the Evaluation
+
+#### Real-Data Fetal ECG Validation
+
+The supplementary physiological validation can be reproduced using the Abdominal and Direct Fetal ECG Database.
+
+After downloading and extracting the dataset, run:
+
+```bash
+python -m pir_framework.real_fetal_experiment \
+    --data-dir /path/to/abdominal-and-direct-fetal-ecg-database-1.0.0 \
+    --outdir results/real_fetal_ecg
+```
+
+The experiment generates:
+
+- Recording-level PIV and SQI-only comparisons.
+- Window-level physiological measurements.
+- Filter and window-duration sensitivity results.
+- Validation summary in JSON format.
+- Figures illustrating PIV and fetal heart-rate estimation error.
+
+The focused experiment tests can be run using:
+
+```bash
+pytest tests/test_real_ecg.py -v
+```
+
 ---
 
 ## 4. Results
@@ -208,14 +299,72 @@ The earlier five-seed experiment is retained for historical context. Its compari
 
 The initial five-seed run suggested higher HR-MAE for PIR-LinUCB than for Heuristic-Rule. The final 25-seed result reverses that ordering. The paper uses the 25-seed run as the primary comparison and treats the earlier result as an exploratory estimate with substantial uncertainty.
 
+
+## Real-Data Fetal ECG Validation
+
+To complement the primary synthetic ECG/PPG evaluation, we conducted an additional physiological validation using five real recordings from the Abdominal and Direct Fetal ECG Database.
+
+Four abdominal ECG leads were used to calculate a multi-lead adaptation of PIV, while independently annotated direct fetal ECG recordings provided the reference for fetal heart-rate estimation error.
+
+The experiment analysed 185 eight-second windows.
+
+| Measure | Mean within-record Spearman correlation |
+|---|---:|
+| Multi-lead PIV | **-0.504** |
+| SQI-only baseline | -0.401 |
+
+The multi-lead PIV exhibited a stronger inverse association with fetal heart-rate estimation error than the SQI-only baseline. This relationship was observed consistently across all five recordings.
+
+### Sensitivity Analysis on Real Physiological Signals
+
+The association was further examined under four filtering and window-duration configurations.
+
+| Configuration | Mean Spearman correlation |
+|---|---:|
+| 20–100 Hz, 8 s | -0.504 |
+| 15–80 Hz, 8 s | -0.341 |
+| 25–150 Hz, 8 s | -0.548 |
+| 20–100 Hz, 12 s | -0.499 |
+
+The negative association remained consistent across the tested configurations, providing supplementary evidence of preprocessing robustness.
+
+### Real-Data Validation Figures
+
+**PIV versus reference fetal heart-rate estimation error**
+
+![PIV versus reference fetal heart-rate estimation error](results/Real data/piv_vs_reference_hr_error.png)
+
+**Fetal heart-rate estimation error across PIV quintiles**
+
+![Heart-rate estimation error by PIV quintile](results/Real data/hr_error_by_piv_quintile.png)
+
+### Reproducibility
+
+The complete supplementary validation outputs are available in `results/Real data/`, including:
+
+- `per_record_validation.csv`
+- `piv_quintile_validation.csv`
+- `piv_sensitivity_filter_and_window.csv`
+- `real_fetal_ecg_piv_windows.csv`
+- `validation_summary.json`
+- `piv_vs_reference_hr_error.png`
+- `hr_error_by_piv_quintile.png`
+
+The real-data experiment is provided as supplementary physiological evidence and is separate from the primary synthetic controller evaluation.
+
 ### 4.4 Interpretation and limits
 
-- **Energy:** PIR-LinUCB uses about 4.3% less energy per window than Heuristic-Rule in the finalized means.
-- **Estimation error:** PIR-LinUCB lowers mean HR-MAE by about 0.31 bpm relative to Heuristic-Rule in the finalized means.
-- **Delivery:** PIR-LinUCB raises mean PDR by 1.88 percentage points relative to Heuristic-Rule.
-- **Reward:** The mean reward advantage is smaller than the other reported effects and is close to the 0.05 threshold even after the specified correction.
-- **Placement:** Always-Local and Always-Edge have the same redundancy, energy, HR-MAE, and PDR in this model; their main reported difference is latency. The deadline is met by all policies, so these experiments do not establish a strong advantage from adaptive placement.
-- **PIV attribution:** The heuristic does not use PIV when selecting actions, but the experiment has no PIV-free bandit ablation or PIV-aware heuristic. Therefore, the measured difference cannot be attributed specifically to PIV.
+- **Energy:** PIR-LinUCB uses approximately 4.3% less energy per window than Heuristic-Rule in the finalized means.
+
+- **Estimation error:** PIR-LinUCB reduces mean HR-MAE by approximately 0.31 bpm relative to Heuristic-Rule.
+
+- **Delivery:** PIR-LinUCB improves mean packet delivery ratio (PDR) by 1.88 percentage points relative to Heuristic-Rule.
+
+- **Reward:** The mean reward improvement is comparatively small (+0.0041). Although it remains statistically significant after Holm correction (adjusted p = 0.045), the result is marginal, with its confidence interval only narrowly excluding zero.
+
+- **Placement:** Always-Local and Always-Edge have identical redundancy, energy consumption, HR-MAE, and PDR in this model; their primary reported difference is latency. All policies satisfy the 150 ms deadline. Consequently, the experiments do not establish a substantial advantage from adaptive computation placement.
+
+- **PIV attribution:** A constant-PIV ablation compares window-specific PIV against a fixed reference value, yielding a reward improvement of approximately 0.00156 (95% CI: [0.000170, 0.002958]). However, because the reward itself contains PIV, this demonstrates only a benefit under the specified learning objective. 
 
 ---
 
@@ -237,14 +386,13 @@ The following issues were found during development and addressed in the code. Th
 
 ## 6. Known limitations
 
-- **Synthetic physiological data.** The primary evaluation uses the controlled synthetic ECG/PPG generator, not real PhysioNet recordings. `PhysioNetRecordLoader` is implemented, but the reported study did not validate it against downloaded real records. Recorded-signal evaluation is necessary before making deployment or clinical claims.
 - **Uncalibrated channel, energy, and latency models.** The constants are model assumptions and were not fitted to measurements from a specific radio, MCU, or edge device.
 - **Analytic decoding approximation.** The main results use a closed-form decoding probability for an ideal erasure code, not packet-level RLNC encoding and decoding in the full experiment.
 - **Hand-designed PIV.** PIV is derived from signal quality and cross-modal agreement. It is not clinically validated, and an ablation is needed to determine whether PIV itself contributes to the policy's performance.
 - **Limited baseline set.** The heuristic is one hand-written rule. A tuned rule or a PIV-aware heuristic may reduce the measured gap. There is no oracle bound in the primary comparison.
 - **Placement effect is limited under this configuration.** All policies meet the deadline and energy is largely determined by redundancy. Claims about learned local-versus-edge placement would be premature.
 - **Synthetic waveform morphology.** The generator uses a sum-of-Gaussians approximation to ECG P–QRS–T and PPG morphology. It is suitable for controlled peak detection, SQI, and degradation experiments, but is not a waveform-level clinical simulator.
-- **Limited modalities and environments.** Only ECG and PPG, one synthetic generator, and one channel configuration were tested. Transfer to tactile, inertial, RF, recorded cardiovascular data, or physical devices remains future work.
+- **Limited real-data validation and generalization.** The supplementary fetal ECG evaluation uses five real recordings and 185 eight-second windows. Four abdominal ECG leads are used to calculate a multi-lead adaptation of PIV, with independently annotated direct fetal ECG providing the reference for heart-rate estimation error. The mean within-record Spearman correlation is -0.504 for PIV compared with -0.401 for the SQI-only baseline. These results provide preliminary evidence for the physiological value-proxy concept, but the small number of recordings limits generalization. Moreover, this experiment evaluates a multi-electrode ECG adaptation.
 
 ---
 
@@ -256,6 +404,7 @@ configs/default.yaml                 Documented parameter reference
 scripts/run_experiment.py            CLI convenience wrapper
 tests/                               Unit and integration tests
 results/
+├── Real data/
 ├── per_seed_metrics.csv              Per-seed metrics for the five policies
 ├── summary_25seed.csv                25-seed means and confidence intervals
 ├── PIR_paired_comparisons_25seed.csv Paired comparisons and corrected p-values
