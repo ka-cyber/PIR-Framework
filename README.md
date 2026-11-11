@@ -332,11 +332,11 @@ The negative association remained consistent across the tested configurations, p
 
 **PIV versus reference fetal heart-rate estimation error**
 
-![PIV versus reference fetal heart-rate estimation error](results/Real data/piv_vs_reference_hr_error.png)
+![PIV versus reference fetal heart-rate estimation error](results/Real%20data/piv_vs_reference_hr_error.png)
 
 **Fetal heart-rate estimation error across PIV quintiles**
 
-![Heart-rate estimation error by PIV quintile](results/Real data/hr_error_by_piv_quintile.png)
+![Heart-rate estimation error by PIV quintile](results/Real%20data/hr_error_by_piv_quintile.png)
 
 ### Reproducibility
 
