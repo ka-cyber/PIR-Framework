@@ -1,0 +1,22 @@
+{
+  "dataset": "PhysioNet Abdominal and Direct Fetal ECG Database v1.0.0",
+  "records": ["r01", "r04", "r07", "r08", "r10"],
+  "n_records": 5,
+  "n_windows": 185,
+  "window_seconds": 8,
+  "sampling_frequency_hz": 1000,
+  "input_channels": "four abdominal ECG leads; direct fetal ECG QRS annotations used only for reference FHR/error",
+  "piv_variant": "multi-electrode ECG adaptation",
+  "sqi_definition": "maximum overlap-corrected normalized autocorrelation over 105-180 bpm lags after 20-100 Hz zero-phase bandpass",
+  "piv_definition": "clip(0.75 * arithmetic mean of available lead SQIs - 0.25 * mean absolute lead-HR deviation from SQI-weighted consensus / 140 bpm, 0, 1)",
+  "equal_record_mean_within_record_spearman_piv_vs_hr_error": -0.5041725936462778,
+  "equal_record_mean_within_record_spearman_sqi_only_vs_hr_error": -0.4012802275960171,
+  "descriptive_delta_rho_piv_minus_sqi_only": -0.10289236605026078,
+  "records_with_negative_piv_error_correlation": 5,
+  "sensitivity_configurations": 4,
+  "sensitivity_configurations_with_negative_mean_within_record_rho": 4,
+  "sensitivity_mean_within_record_rho_range": [-0.5476529160739687, -0.3409672830725462],
+  "lowest_piv_quintile_median_hr_error_bpm": 13.79632349742559,
+  "highest_piv_quintile_median_hr_error_bpm": 0.12827219397092904,
+  "claim_boundary": "Preliminary association for a multi-electrode ECG adaptation in five recordings"
+}
