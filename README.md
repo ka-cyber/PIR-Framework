@@ -260,32 +260,50 @@ pytest tests/test_real_ecg.py -v
 
 ### 4.1 Main 25-seed comparison
 
-The table below reports the finalized values used in the paper. Per-policy entries are mean ± 95% CI where supplied. PDR confidence intervals for the two adaptive policies are not listed in this table; the paired PDR difference and its confidence interval are reported in Table 2.
+The table below reports the finalized values used in the paper. Entries are mean ± 95% CI across 25 seeds (steady state, second half of each session). Bold marks the best value in each column.
 
 | Policy | HR-MAE (bpm) ↓ | Energy (mJ/window) ↓ | PDR (%) ↑ | Mean reward ↑ | Deadline success |
 |---|---:|---:|---:|---:|---:|
 | Fixed-Rate (R=8) | 6.913 ± 0.303 | 95.81 ± 0.00 | 82.37 ± 2.08 | 0.1715 ± 0.0137 | 100% |
-| Always-Local (R=20) | **5.906 ± 0.227** | 119.89 ± 0.00 | 88.71 ± 1.34 | 0.1148 ± 0.0088 | 100% |
-| Always-Edge (R=20) | **5.906 ± 0.227** | 119.89 ± 0.00 | 88.71 ± 1.34 | 0.1167 ± 0.0088 | 100% |
-| Heuristic-Rule | 6.409 ± 0.341 | 96.66 ± 1.38 | 85.68 | 0.2015 ± 0.0140 | 100% |
-| **PIR-LinUCB** | 6.100 ± 0.231 | **92.53 ± 1.42** | **87.56** | **0.2057 ± 0.0152** | 100% |
+| Always-Local (R=20) | **5.906 ± 0.227** | 119.89 ± 0.00 | **88.71 ± 1.34** | 0.1148 ± 0.0088 | 100% |
+| Always-Edge (R=20) | **5.906 ± 0.227** | 119.89 ± 0.00 | **88.71 ± 1.34** | 0.1167 ± 0.0088 | 100% |
+| Heuristic-Rule | 6.409 ± 0.341 | 96.66 ± 1.38 | 85.68 ± 1.93 | 0.2015 ± 0.0140 | 100% |
+| PIR-Aware-Heuristic | 6.110 ± 0.231 | 96.27 ± 1.37 | 87.51 ± 1.31 | 0.2028 ± 0.0140 | 100% |
+| **PIR-LinUCB** | 6.100 ± 0.231 | **92.53 ± 1.42** | 87.56 ± 1.31 | **0.2057 ± 0.0152** | 100% |
 
-PIR-LinUCB has lower mean HR-MAE and energy consumption, higher mean reward, and higher PDR than Heuristic-Rule in the finalized 25-seed summary. Both policies achieved 100% deadline success. The statistical comparison below is the primary inferential comparison; other baseline comparisons are descriptive in this study.
+PIR-Aware-Heuristic is the same hand-written rule as Heuristic-Rule, extended to read the window's PIV. It was added to separate the effect of the PIV feature from the effect of the learned controller. Its per-seed results are in `results/PIR_Aware_Heuristic_25Seeds.csv`.
+
+PIR-LinUCB has lower mean HR-MAE and energy consumption, higher mean reward, and higher PDR than Heuristic-Rule in the finalized 25-seed summary. Giving the heuristic access to PIV closes nearly all of the HR-MAE and PDR gap (6.110 vs 6.100 bpm; 87.51% vs 87.56%), but not the energy gap. All policies achieved 100% deadline success, so placement (local vs edge) never became a binding decision in this configuration.
 
 ### 4.2 Paired comparison: PIR-LinUCB vs Heuristic-Rule
 
 Differences are PIR-LinUCB minus Heuristic-Rule. The paired tests use the 25-seed pairing. Holm correction is applied over the four outcomes HR-MAE, energy, PDR, and reward.
 
-| Outcome | Mean paired difference | 95% CI of difference | Raw p-value | Holm-adjusted p-value | Direction |
-|---|---:|---:|---:|---:|---|
-| HR-MAE (bpm) ↓ | −0.309 | [−0.494, −0.124] | 0.0021 | 0.0042 | PIR-LinUCB better |
-| Energy (mJ/window) ↓ | −4.135 | [−5.228, −3.042] | \(4.9\times10^{-8}\) | \(1.9\times10^{-7}\) | PIR-LinUCB better |
-| PDR (percentage points) ↑ | +1.88 | [+0.94, +2.82] | 0.0004 | 0.0012 | PIR-LinUCB better |
-| Mean reward ↑ | +0.0041 | [+0.0001, +0.0082] | 0.045 | 0.045 | PIR-LinUCB better |
+| Outcome | Mean paired difference | 95% CI of difference | Raw p-value | Holm-adjusted p-value | Seeds improved | Direction |
+|---|---:|---:|---:|---:|---:|---|
+| HR-MAE (bpm) ↓ | −0.309 | [−0.494, −0.124] | 0.0021 | 0.0042 | 23/25 | PIR-LinUCB better |
+| Energy (mJ/window) ↓ | −4.135 | [−5.228, −3.042] | \(4.9\times10^{-8}\) | \(1.9\times10^{-7}\) | 24/25 | PIR-LinUCB better |
+| PDR (percentage points) ↑ | +1.88 | [+0.94, +2.82] | 0.0004 | 0.0012 | 22/25 | PIR-LinUCB better |
+| Mean reward ↑ | +0.0041 | [+0.0001, +0.0082] | 0.045 | 0.045 | 21/25 | PIR-LinUCB better |
 
-These p-values describe seed-to-seed variability under the tested simulation configuration. They do not establish generalization to real physiological recordings, patients, or deployed wireless hardware. Statistical significance also does not establish that PIV itself caused the improvements; that would require ablations.
+A paired exact Wilcoxon signed-rank test gives the same conclusions (raw p = \(5.2\times10^{-6}\), \(4.2\times10^{-7}\), \(4.1\times10^{-5}\), and 0.0056 for the four outcomes; Holm-adjusted p ≤ 0.0056 for all four).
 
-### 4.3 Initial exploratory five-seed experiment
+### 4.3 Paired comparison: PIR-LinUCB vs PIR-Aware-Heuristic
+
+This comparison asks whether PIR-LinUCB wins only because it reads PIV. Differences are PIR-LinUCB minus PIR-Aware-Heuristic, with Holm correction over the same four outcomes.
+
+| Outcome | Mean paired difference | 95% CI of difference | Raw p-value | Holm-adjusted p-value | Seeds improved (ties) | Direction |
+|---|---:|---:|---:|---:|---:|---|
+| HR-MAE (bpm) ↓ | −0.011 | [−0.023, +0.002] | 0.088 | 0.18 | 6/25 (19 tied) | Not distinguishable |
+| Energy (mJ/window) ↓ | −3.749 | [−4.847, −2.651] | \(2.8\times10^{-7}\) | \(1.1\times10^{-6}\) | 24/25 | PIR-LinUCB better |
+| PDR (percentage points) ↑ | +0.053 | [+0.006, +0.101] | 0.029 | 0.088 | 6/25 (19 tied) | Not significant after correction |
+| Mean reward ↑ | +0.0029 | [−0.0011, +0.0069] | 0.146 | 0.18 | 19/25 | Not significant after correction |
+
+PIR-LinUCB and PIR-Aware-Heuristic produce identical HR-MAE and PDR in 19 of 25 seeds, so the few seeds that differ should not be over-read. The remaining separation is energy: PIR-LinUCB uses about 3.75 mJ (3.9%) less per window, in 24 of 25 seeds. In this testbed the PIV input accounts for most of the accuracy and delivery advantage over Heuristic-Rule, and the learned controller accounts for the energy saving. The action-level cause of the saving has not been inspected.
+
+These p-values describe seed-to-seed variability under the tested simulation configuration. They do not establish generalization to real physiological recordings, patients, or deployed wireless hardware. The PIR-Aware-Heuristic comparison separates the PIV feature from the learned controller within the simulation, but PIV is not clinically validated, and the reward function contains PIV by construction.
+
+### 4.4 Initial exploratory five-seed experiment
 
 The earlier five-seed experiment is retained for historical context. Its comparison between PIR-LinUCB and Heuristic-Rule was inconclusive, with wide confidence intervals.
 
@@ -352,7 +370,7 @@ The complete supplementary validation outputs are available in `results/Real dat
 
 The real-data experiment is provided as supplementary physiological evidence and is separate from the primary synthetic controller evaluation.
 
-### 4.4 Interpretation and limits
+### 4.5 Interpretation and limits
 
 - **Energy:** PIR-LinUCB uses approximately 4.3% less energy per window than Heuristic-Rule in the finalized means.
 
